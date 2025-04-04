@@ -40,17 +40,24 @@ echo "unviersity dir"
 mkdir ~/university
 
 
-mv ./.yabairc ~/.yabairc
+cp ./.yabairc ~/.yabairc
 echo "built yabairc"
 
-echo "building fish config file"
+cp ./.zshrc ~/.zshrc
+
+
 if [ ! -d ".config" ]; then mkdir ".config" fi
+
+cp -r ./nvim ~/.config/nvim
+
+cp ./tmux.conf ~/.config/tmux.conf
+cp -r ./alacritty ~/.config/alacritty
+
+echo "building fish config file"
 if [ ! -d ".config/fish" ]; then mkdir ".config/fish" fi
-echo "starship init fish | source" > ~/.config/fish/config.fish
 
-echo "zoxide init fish | source" >> ~/.config/fish/config.fish
-
-echo "tmux" > .zshrc
-echo "fish" >> .zshrc
+cp ./fish/config.fish ~/.config/fish/config.fish
 
 source ~/.zshrc
+
+tailscale login

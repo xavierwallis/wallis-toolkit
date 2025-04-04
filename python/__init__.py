@@ -1,5 +1,3 @@
-
-
 from random import choice
 from typing import Any, Callable, List
 
@@ -24,3 +22,4 @@ class list( list ):
 
     def bottom( self, count: int | None = None ) -> Any:
         return self[ -count: ] if count else self[ -1 ]
+

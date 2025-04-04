@@ -1,0 +1,10 @@
+{
+  "scaffolder": {
+    "command": "deno",
+    "args": [
+      "run",
+      "--allow-all",
+      "~/projects/wallis-toolkit/mcp-servers/typescript/nextjs/scaffolder/main.ts"
+    ]
+  }
+}

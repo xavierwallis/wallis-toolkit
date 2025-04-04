@@ -3,6 +3,6 @@ function unzip
     echo "unzipping..."
     set_color normal
 
-    tar xzfv $argv
+    tar xzf $argv
     rm $argv
 end

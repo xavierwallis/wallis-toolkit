@@ -3,5 +3,5 @@ function zip
     echo 'zipping...'
     set_color normal
     echo $argv
-    tar czfv $argv
+    tar czf $argv
 end

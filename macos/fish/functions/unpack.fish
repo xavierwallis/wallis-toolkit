@@ -5,4 +5,5 @@ function unpack
     unzip $argv
     cd ( string replace -r '\.tar\.gz$' '' -- $argv[1] )
     onefetch
+    tree -L 2
 end
