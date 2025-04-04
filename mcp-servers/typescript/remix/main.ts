@@ -1,17 +1,14 @@
 import { McpServer, ResourceTemplate } from 'npm:@modelcontextprotocol/sdk/server/mcp.js'
 import { StdioServerTransport } from "npm:@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from 'npm:zod';
-import { exec } from 'npm:child_process'
-import { promisify } from 'node:util';
 import { readFileSync as read_file } from 'node:fs';
-
-const exec_async = promisify( exec )
 
 
 const server = new McpServer({
   name: 'Remix/ReactRouterV7 Scaffolder',
   version: '1.0.0'
 })
+
 enum resources {
   database_declaration,
   database_schema,
@@ -46,7 +43,7 @@ const scaffolding_path = '/Users/xavierwallis/projects/wallis-toolkit/mcp-server
 server.resource(
   'database-declaration',
   resource_links[resources.database_declaration],
-  async ( uri ) => ({
+  async (uri) => ({
     contents: [{
       uri: uri.href,
       text: read_file(`${scaffolding_path}/database/declaration.ts`)
@@ -57,7 +54,7 @@ server.resource(
 server.resource(
   'database-schema',
   resource_links[resources.database_schema],
-  async ( uri ) => ({
+  async (uri) => ({
     contents: [{
       uri: uri.href,
       text: read_file(`${scaffolding_path}/database/schema.ts`)
@@ -68,7 +65,7 @@ server.resource(
 server.resource(
   'route',
   resource_links[resources.route],
-  async ( uri ) => ({
+  async (uri) => ({
     contents: [{
       uri: uri.href,
       text: read_file(`${scaffolding_path}/routes/route.tsx`)
@@ -79,7 +76,7 @@ server.resource(
 server.resource(
   'protected-route',
   resource_links[resources.protected_route],
-  async ( uri ) => ({
+  async (uri) => ({
     contents: [{
       uri: uri.href,
       text: read_file(`${scaffolding_path}/routes/protected/route.tsx`)
@@ -90,7 +87,7 @@ server.resource(
 server.resource(
   'authentication-route',
   resource_links[resources.authentication],
-  async ( uri ) => ({
+  async (uri) => ({
     contents: [{
       uri: uri.href,
       text: read_file(`${scaffolding_path}/routes/authentication/authentication.tsx`)
@@ -101,7 +98,7 @@ server.resource(
 server.resource(
   'authentication-google-route',
   resource_links[resources.authentication_google],
-  async ( uri ) => ({
+  async (uri) => ({
     contents: [{
       uri: uri.href,
       text: read_file(`${scaffolding_path}/routes/authentication/authentication.google.tsx`)
@@ -112,7 +109,7 @@ server.resource(
 server.resource(
   'authentication-google-callback-route',
   resource_links[resources.authentication_google_callback],
-  async ( uri ) => ({
+  async (uri) => ({
     contents: [{
       uri: uri.href,
       text: read_file(`${scaffolding_path}/routes/authentication/authentication.google.callback.tsx`)
@@ -123,7 +120,7 @@ server.resource(
 server.resource(
   'plaid-link-token-create-route',
   resource_links[resources.plaid_link_token_create],
-  async ( uri ) => ({
+  async (uri) => ({
     contents: [{
       uri: uri.href,
       text: read_file(`${scaffolding_path}/routes/plaid/plaid.link.token.create.tsx`)
@@ -134,7 +131,7 @@ server.resource(
 server.resource(
   'plaid-link-route',
   resource_links[resources.plaid_link],
-  async ( uri ) => ({
+  async (uri) => ({
     contents: [{
       uri: uri.href,
       text: read_file(`${scaffolding_path}/routes/plaid/plaid.link.tsx`)
@@ -145,7 +142,7 @@ server.resource(
 server.resource(
   'authenticator',
   resource_links[resources.authenticator],
-  async ( uri ) => ({
+  async (uri) => ({
     contents: [{
       uri: uri.href,
       text: read_file(`${scaffolding_path}/services/authenticator.ts`)
@@ -155,7 +152,7 @@ server.resource(
 
 server.tool(
   'list-resources',
-  { },
+  {},
   async () => ({
     content: [{ type: "text", text: resource_links.join('\n') }]
   })

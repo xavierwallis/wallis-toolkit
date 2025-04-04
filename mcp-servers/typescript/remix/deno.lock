@@ -3,7 +3,10 @@
   "specifiers": {
     "jsr:@std/assert@1": "1.0.12",
     "jsr:@std/internal@^1.0.6": "1.0.6",
+    "npm:@modelcontextprotocol/sdk@*": "1.8.0_express@5.0.1_zod@3.24.2",
     "npm:@modelcontextprotocol/sdk@^1.8.0": "1.8.0_express@5.0.1_zod@3.24.2",
+    "npm:child_process@*": "1.0.2",
+    "npm:zod@*": "3.24.2",
     "npm:zod@^3.24.2": "3.24.2"
   },
   "jsr": {
@@ -70,6 +73,9 @@
         "call-bind-apply-helpers",
         "get-intrinsic"
       ]
+    },
+    "child_process@1.0.2": {
+      "integrity": "sha512-Wmza/JzL0SiWz7kl6MhIKT5ceIlnFPJX+lwUGj7Clhy5MMldsSoJR0+uvRzOS5Kv45Mq7t1PoE8TsOA9bzvb6g=="
     },
     "content-disposition@1.0.0": {
       "integrity": "sha512-Au9nRL8VNUut/XSzbQA38+M78dzP4D+eqg3gfJHMIHHYa3bg067xj1KxMUWj+VULbiZMowKngFFbKczUrNJ1mg==",
