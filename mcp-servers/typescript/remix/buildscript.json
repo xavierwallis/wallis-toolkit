@@ -1,0 +1,10 @@
+{
+  "remix": {
+    "command": "deno",
+    "args": [
+      "run",
+      "--allow-all",
+      "~/projects/wallis-toolkit/mcp-servers/typescript/remix/main.ts"
+    ]
+  }
+}
