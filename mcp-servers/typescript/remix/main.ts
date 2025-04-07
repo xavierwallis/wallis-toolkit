@@ -2,7 +2,10 @@ import { McpServer, ResourceTemplate } from 'npm:@modelcontextprotocol/sdk/serve
 import { StdioServerTransport } from "npm:@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from 'npm:zod';
 import { readFileSync as read_file } from 'node:fs';
+import { exec, spawn } from 'node:child_process'
+import { promisify } from 'node:util'
 
+const exec_async = promisify(exec)
 
 const server = new McpServer({
   name: 'Remix/ReactRouterV7 Scaffolder',
@@ -21,8 +24,8 @@ enum resources {
   plaid_link_token_create,
 
   authenticator
-
 }
+
 const resource_links = [
   'scaffolder://scaffolding/remix/database/declaration',
   'scaffolder://scaffolding/remix/database/schema',
@@ -150,12 +153,70 @@ server.resource(
   })
 )
 
+// resource tool
+
 server.tool(
   'list-resources',
   {},
   async () => ({
     content: [{ type: "text", text: resource_links.join('\n') }]
   })
+)
+
+
+// scaffolding tools
+
+server.tool(
+  'build-remix-app',
+  { project_name: z.string() },
+  async ({ project_name }: { project_name: string }) => {
+
+    const child = spawn('npx', ['create-react-router@latest', project_name], {
+      stdio: 'pipe'
+    })
+
+    child.stdin.write('\n')
+
+    return new Promise((resolve, reject) => {
+      child.on('close', (code) => {
+        if (code !== 0) reject(new Error('process exited in error'))
+        return {
+          content: [{
+            type: 'text',
+            text: `created latest react router v7 project in ${project_name}`
+          }]
+        }
+      })
+    })
+  }
+)
+
+server.tool(
+  'build-database',
+  { project_path: z.string() },
+  async ({ project_path }: { project_path: string }) => {
+    const ignored = await exec_async(`cp -r /Users/xavierwallis/projects/wallis-toolkit/mcp-servers/typescript/remix/scaffolding/database ${project_path}/src`)
+    return {
+      content: [{
+        type: 'text',
+        text: `moved ~/project/wallis-toolkit/mcp-servers/typescript/remix/scaffolding/database into ${project_path}/src containing children declaration.ts, schema.ts`
+      }]
+    }
+  }
+)
+
+server.tool(
+  'build-authentication-service',
+  { project_path: z.string() },
+  async ({ project_path }: { project_path: string }) => {
+    const ignored = await exec_async(`cp -r /Users/xavierwallis/projects/wallis-toolkit/mcp-servers/typescript/remix/scaffolding/services ${project_path}/src`)
+    return {
+      content: [{
+        type: 'text',
+        text: `moved ~/project/wallis-toolkit/mcp-servers/typescript/remix/scaffolding/services into ${project_path}/src containing children authenticator.ts`
+      }]
+    }
+  }
 )
 
 const transport = new StdioServerTransport();
