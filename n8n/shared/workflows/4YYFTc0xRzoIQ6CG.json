@@ -1,0 +1,395 @@
+{
+  "updatedAt": "2025-10-04T07:34:26.146Z",
+  "createdAt": "2025-10-04T07:09:13.359Z",
+  "id": "4YYFTc0xRzoIQ6CG",
+  "name": "Request Retrier",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "url"
+            },
+            {
+              "name": "method"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        64,
+        16
+      ],
+      "id": "1c3f8b64-3544-4316-8d12-1e266a3b9e06",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "fileSelector": "./api-keys",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1,
+      "position": [
+        256,
+        16
+      ],
+      "id": "86cc24bc-b59b-469c-a89b-7cfca5787a9c",
+      "name": "Read/Write Files from Disk",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "method": "={{ $('When Executed by Another Workflow').item.json.method }}",
+        "url": "={{ $('When Executed by Another Workflow').item.json.url }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "accept",
+              "value": "application/json"
+            },
+            {
+              "name": "x-api-key",
+              "value": "yzmyk6XaMZGSt3TPK82WoUBguLmEVPzzfopV1MlV"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        624,
+        16
+      ],
+      "id": "6de4d4a0-b924-48a3-bce9-6ca30f174d77",
+      "name": "HTTP Request",
+      "alwaysOutputData": false,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "38407d0c-9dcf-4bb3-bbc4-940dbf3ed867",
+              "leftValue": "={{ $json.error }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        816,
+        16
+      ],
+      "id": "3e7b7bb9-3efa-49bb-90aa-fa6b9f4b4c82",
+      "name": "If Not forbidden"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -208,
+        288
+      ],
+      "id": "7ba81740-2324-4cb9-96a1-459ddd19a693",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "operation": "write",
+        "fileName": "./api-keys",
+        "options": {
+          "append": false
+        }
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1,
+      "position": [
+        256,
+        288
+      ],
+      "id": "d64d0cd5-3d17-4dfc-b913-6873ef03d2dc",
+      "name": "Read/Write Files from Disk1"
+    },
+    {
+      "parameters": {
+        "operation": "toText",
+        "sourceProperty": "key",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        96,
+        288
+      ],
+      "id": "ce86d049-1450-48a6-b473-21b79dfee3c0",
+      "name": "Convert to File"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "48a1068a-5c1a-40bf-86a9-779b18aee2b7",
+              "name": "key",
+              "value": "yzmyk6XaMZGSt3TPK82WoUBguLmEVPzzfopV1MlV",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -48,
+        288
+      ],
+      "id": "b799f5fd-4b32-4267-904e-36f94342605b",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "operation": "text",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        448,
+        16
+      ],
+      "id": "1520fa3d-00d0-42ea-935b-a870a17300b6",
+      "name": "Extract from File"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f537152c-9c64-42c8-87da-245c8f243d8e",
+              "name": "error",
+              "value": "={{ $json.error }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1072,
+        -80
+      ],
+      "id": "5a57f1a0-0c05-4197-a006-76683dc9f05a",
+      "name": "Error"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ec000068-3cff-4b97-9daf-c9e426a50415",
+              "name": "date",
+              "value": "={{ $json.date }}",
+              "type": "string"
+            },
+            {
+              "id": "2c8d55b3-e3ef-4de0-9e33-393c625792da",
+              "name": "league",
+              "value": "={{ $json.league }}",
+              "type": "object"
+            },
+            {
+              "id": "6c768add-7631-452a-a59f-d2f47970eaa0",
+              "name": "games",
+              "value": "={{ $json.games }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1072,
+        96
+      ],
+      "id": "2de85f22-d4dd-4169-99aa-dfe9c77223cf",
+      "name": "Success"
+    }
+  ],
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Read/Write Files from Disk",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read/Write Files from Disk": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "If Not forbidden",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Not forbidden": {
+      "main": [
+        [
+          {
+            "node": "Error",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Success",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read/Write Files from Disk1": {
+      "main": [
+        []
+      ]
+    },
+    "Convert to File": {
+      "main": [
+        [
+          {
+            "node": "Read/Write Files from Disk1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {
+    "When Executed by Another Workflow": [
+      {
+        "json": {
+          "url": "https://api.sportradar.com/wnba/trial/v8/en/games/2025/10/4/schedule.json",
+          "method": "GET"
+        }
+      }
+    ]
+  },
+  "versionId": "6ea3589d-3e5b-4c1d-a139-3db9e9f474c4",
+  "versionCounter": 1,
+  "triggerCount": 0,
+  "tags": [
+    {
+      "updatedAt": "2025-10-02T00:33:35.324Z",
+      "createdAt": "2025-10-02T00:33:35.324Z",
+      "id": "1iYVqLnt7f2NLEMF",
+      "name": "Utility"
+    }
+  ],
+  "shared": [
+    {
+      "updatedAt": "2025-11-13T12:03:20.384Z",
+      "createdAt": "2025-11-13T12:03:20.384Z",
+      "role": "workflow:owner",
+      "workflowId": "4YYFTc0xRzoIQ6CG",
+      "projectId": "73UWjerCMPjP5ofU",
+      "project": {
+        "updatedAt": "2025-11-13T11:55:27.881Z",
+        "createdAt": "2025-11-13T11:53:22.454Z",
+        "id": "73UWjerCMPjP5ofU",
+        "name": "Xavier Wallis <wallisxavier04@gmail.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null
+      }
+    }
+  ]
+}

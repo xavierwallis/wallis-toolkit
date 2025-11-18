@@ -1,18 +1,23 @@
 #!/bin/zsh
+
+set -euo pipefail
 echo "Hi xavier :)"
 
 # centering
 cd
 
 echo "downloading xcode-tools"
-xcode-select --install
+
+if ! xcode-select -p >/dev/null 2>&1; then
+    xcode-select --install || true
+else
+    echo "Xcode tools already installed"
+fi
 
 echo "downloading homebrew"
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 (echo; echo 'eval "$(/opt/homebrew/bin/brew shellenv)"') >> ~/.zprofile
 eval "$(/opt/homebrew/bin/brew shellenv)"
-
-source ~/.zprofile
 
 brew update
 
@@ -23,17 +28,68 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 
 echo "downloading formulae"
 # Formulae
-brew install neofetch yabai ffmpeg docker docker-completion docker-compose supabase stripe-cli mas rustup fzf dotenvx thefuck lua
-
+brew install \
+    neofetch \
+    yabai \
+    ffmpeg \
+    docker \
+    docker-completion \
+    docker-compose \
+    supabase \
+    stripe-cli \
+    mas \
+    rustup \
+    fzf \
+    dotenvx \
+    thefuck \
+    lua \
+    tailscale
 
 echo "downloading casks"
-# Casks
-brew install --cask adobe-creative-cloud blender raycast via vivid chromedriver yabai dotnet-sdk notion numi fantastical jetbrains-toolbox ollama bruno tempbox npm whisky fish starship fzf neovim tmux webstorm dataspell
+brew install --cask \
+    adobe-creative-cloud \
+    blender \
+    raycast \
+    via \
+    vivid \
+    chromedriver \
+    yabai \
+    dotnet-sdk \
+    notion \
+    numi \
+    fantastical \
+    jetbrains-toolbox \
+    ollama \
+    tempbox \
+    npm \
+    whisky \
+    fish \
+    starship \
+    fzf \
+    tmux \
+    yaak \
 
 
 echo "downloading mac apps"
-# Mac Apps  Xcode     nextdns    hidden-bar flow     amphetamine excel     word     powerpoint tailscale
-mas install 497799835 1464122853 1452453066 1423210932 937984704 462058435 462054704 462062816 1475387142
+mas install \
+# Xcode
+  497799835  \
+# nextdns
+  1464122853 \
+# hidden-bar
+  1452453066 \
+# flow
+  1423210932 \
+# amphetamine
+  937984704  \
+# excel
+  462058435  \
+# word
+  462054704  \
+# powerpoint
+  462062816  \
+# tailscale
+  1475387142
 
 
 # disregard

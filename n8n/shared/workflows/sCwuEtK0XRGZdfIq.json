@@ -1,0 +1,38 @@
+{
+  "updatedAt": "2025-10-10T21:24:04.416Z",
+  "createdAt": "2025-10-08T22:44:38.621Z",
+  "id": "sCwuEtK0XRGZdfIq",
+  "name": "Random Color Generator",
+  "active": false,
+  "isArchived": true,
+  "nodes": [],
+  "connections": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "bac5c86c-9356-43fd-af21-cbd49a7768d2",
+  "versionCounter": 1,
+  "triggerCount": 0,
+  "tags": [],
+  "shared": [
+    {
+      "updatedAt": "2025-11-13T12:04:22.834Z",
+      "createdAt": "2025-11-13T12:04:22.834Z",
+      "role": "workflow:owner",
+      "workflowId": "sCwuEtK0XRGZdfIq",
+      "projectId": "73UWjerCMPjP5ofU",
+      "project": {
+        "updatedAt": "2025-11-13T11:55:27.881Z",
+        "createdAt": "2025-11-13T11:53:22.454Z",
+        "id": "73UWjerCMPjP5ofU",
+        "name": "Xavier Wallis <wallisxavier04@gmail.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null
+      }
+    }
+  ]
+}

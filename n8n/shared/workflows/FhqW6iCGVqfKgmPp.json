@@ -1,0 +1,331 @@
+{
+  "updatedAt": "2025-10-14T19:34:17.549Z",
+  "createdAt": "2025-10-12T05:17:43.794Z",
+  "id": "FhqW6iCGVqfKgmPp",
+  "name": "Get MLB Data",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -1248,
+        -96
+      ],
+      "id": "5ae2c19d-9a17-4e2d-b01c-14fa0df205e1",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "ecjPhaxYG9JxIaGm",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/ecjPhaxYG9JxIaGm",
+          "cachedResultName": "Today's Date"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {}
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        -1040,
+        -96
+      ],
+      "id": "9ec8af6c-3a34-4126-bcf8-838179142aa1",
+      "name": "Today's Date"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "c5hqkaQ4wmuM7mI7",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/c5hqkaQ4wmuM7mI7",
+          "cachedResultName": "Sport Radar API Key Tester"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "sport": "mlb"
+          },
+          "matchingColumns": [
+            "sport"
+          ],
+          "schema": [
+            {
+              "id": "sport",
+              "displayName": "sport",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        -832,
+        -96
+      ],
+      "id": "3b2087a2-6434-4f02-8cc7-b36cd285f793",
+      "name": "Call 'Sport Radar Key Tester'"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.sportradar.com/mlb/trial/v8/en/games/{{ $('Today\\'s Date').item.json.year }}/{{ $('Today\\'s Date').item.json.month }}/{{ $('Today\\'s Date').item.json.day }}/schedule.json",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-api-key",
+              "value": "={{ $json.keys[0] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -640,
+        -96
+      ],
+      "id": "da4b809f-3a40-40e7-90ed-f584dc366a50",
+      "name": "HTTP Request",
+      "retryOnFail": true,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "language": "python",
+        "pythonCode": "import pandas\nimport io\n\nschedule = pandas.DataFrame(_('HTTP Request').first().json['games'])\nschedule['starts_at'] = pandas.to_datetime(schedule['scheduled'])\nschedule['starts_at'] = schedule['starts_at'].dt.tz_convert('America/New_York')\n\ncsv_string = io.StringIO(_('name-to-icon-map').first().json['name-to-icon-map.csv'])\nabbreviations = pandas.read_csv(csv_string).set_index('name')['icon']\n\ndef get_icon(name):\n    return abbreviations.get(name, None)  # avoid KeyError\n\ndef map_team(team):\n    return {'name': f\"{team['market']} {team['name']}\", 'icon': get_icon(team['abbr'])}\n\nschedule['home'] = [map_team(x) for x in schedule['home']]\nschedule['away'] = [map_team(x) for x in schedule['away']]\n\nschedule['starts_at'] = schedule['starts_at'].dt.strftime('%Y-%m-%d %H:%M:%S')\nschedule['date'] = schedule['starts_at'].str.split(' ').str[0]\n\nreturn schedule.to_dict(orient='records')\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        304,
+        -128
+      ],
+      "id": "cff627dd-ec94-47b9-8117-d1ce07cadb9c",
+      "name": "Code in Python (Beta)"
+    },
+    {
+      "parameters": {
+        "jsCode": "return [{\"name-to-icon-map.csv\":`name,icon\nARI,https://sports.cbsimg.net/fly/images/mlb/logos/team/330.svg\nATL,https://sports.cbsimg.net/fly/images/mlb/logos/team/315.svg\nBAL,https://sports.cbsimg.net/fly/images/mlb/logos/team/302.svg\nBOS,https://sports.cbsimg.net/fly/images/mlb/logos/team/303.svg\nCHC,https://sports.cbsimg.net/fly/images/mlb/logos/team/316.svg\nCHW,https://sports.cbsimg.net/fly/images/mlb/logos/team/304.svg\nCIN,https://sports.cbsimg.net/fly/images/mlb/logos/team/317.svg\nCleveland Guardians,https://sports.cbsimg.net/fly/images/mlb/logos/team/305.svg\nCOL,https://sports.cbsimg.net/fly/images/mlb/logos/team/318.svg\nDET,https://sports.cbsimg.net/fly/images/mlb/logos/team/306.svg\nHOU,https://sports.cbsimg.net/fly/images/mlb/logos/team/320.svg\nKAN,https://sports.cbsimg.net/fly/images/mlb/logos/team/307.svg\nLos Angeles Angels,https://sports.cbsimg.net/fly/images/mlb/logos/team/301.svg\nLAD,https://sports.cbsimg.net/fly/images/mlb/logos/team/321.svg\nMiami Marlins,https://sports.cbsimg.net/fly/images/mlb/logos/team/319.svg\nMIL,https://sports.cbsimg.net/fly/images/mlb/logos/team/308.svg\nMIN,https://sports.cbsimg.net/fly/images/mlb/logos/team/309.svg\nNYM,https://sports.cbsimg.net/fly/images/mlb/logos/team/323.svg\nNYY,https://sports.cbsimg.net/fly/images/mlb/logos/team/310.svg\nAthletics,https://sports.cbsimg.net/fly/images/mlb/logos/team/311.svg\nPHI,https://sports.cbsimg.net/fly/images/mlb/logos/team/324.svg\nPIT,https://sports.cbsimg.net/fly/images/mlb/logos/team/325.svg\nSD,https://sports.cbsimg.net/fly/images/mlb/logos/team/326.svg\nSF,https://sports.cbsimg.net/fly/images/mlb/logos/team/327.svg\nSEA,https://sports.cbsimg.net/fly/images/mlb/logos/team/312.svg\nSTL,https://sports.cbsimg.net/fly/images/mlb/logos/team/328.svg\nTB,https://sports.cbsimg.net/fly/images/mlb/logos/team/329.svg\nTEX,https://sports.cbsimg.net/fly/images/mlb/logos/team/313.svg\nTOR,https://sports.cbsimg.net/fly/images/mlb/logos/team/314.svg\nWAS,https://sports.cbsimg.net/fly/images/mlb/logos/team/322.svg\n`}]"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -64,
+        -128
+      ],
+      "id": "a3c6f053-bdc0-460e-bb94-fe6287973590",
+      "name": "name-to-icon-map"
+    },
+    {
+      "parameters": {
+        "operation": "toText",
+        "sourceProperty": "name-to-icon-map.csv",
+        "options": {
+          "fileName": "name-to-icon-map.csv"
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        112,
+        -128
+      ],
+      "id": "b2b7b1e2-7efb-4cd9-9707-e4ef9f241836",
+      "name": "Convert to File"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        -224,
+        112
+      ],
+      "id": "2208cf72-7008-4d83-bd8b-f8fa400e3e6c",
+      "name": "No Games Today"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "70d1c0a7-a230-4376-a322-3f2390e897d2",
+              "leftValue": "={{ $json.games }}",
+              "rightValue": 1,
+              "operator": {
+                "type": "array",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -336,
+        -112
+      ],
+      "id": "0cca35e1-2369-44d4-a469-7d10f6c8246e",
+      "name": "If Games Are Today"
+    }
+  ],
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Today's Date",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Today's Date": {
+      "main": [
+        [
+          {
+            "node": "Call 'Sport Radar Key Tester'",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call 'Sport Radar Key Tester'": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "If Games Are Today",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "name-to-icon-map": {
+      "main": [
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File": {
+      "main": [
+        [
+          {
+            "node": "Code in Python (Beta)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Games Are Today": {
+      "main": [
+        [
+          {
+            "node": "name-to-icon-map",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Games Today",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "da583ae1-8c06-4fed-8f80-64493bc4c555",
+  "versionCounter": 1,
+  "triggerCount": 0,
+  "tags": [
+    {
+      "updatedAt": "2025-10-02T00:33:52.277Z",
+      "createdAt": "2025-10-02T00:33:52.277Z",
+      "id": "yviS9e4IWkYvxcsn",
+      "name": "Just The Stats Sports"
+    },
+    {
+      "updatedAt": "2025-10-02T00:33:35.324Z",
+      "createdAt": "2025-10-02T00:33:35.324Z",
+      "id": "1iYVqLnt7f2NLEMF",
+      "name": "Utility"
+    }
+  ],
+  "shared": [
+    {
+      "updatedAt": "2025-11-13T12:03:52.051Z",
+      "createdAt": "2025-11-13T12:03:52.051Z",
+      "role": "workflow:owner",
+      "workflowId": "FhqW6iCGVqfKgmPp",
+      "projectId": "73UWjerCMPjP5ofU",
+      "project": {
+        "updatedAt": "2025-11-13T11:55:27.881Z",
+        "createdAt": "2025-11-13T11:53:22.454Z",
+        "id": "73UWjerCMPjP5ofU",
+        "name": "Xavier Wallis <wallisxavier04@gmail.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null
+      }
+    }
+  ]
+}

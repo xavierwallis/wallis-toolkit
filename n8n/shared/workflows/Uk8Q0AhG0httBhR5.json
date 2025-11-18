@@ -1,0 +1,354 @@
+{
+  "updatedAt": "2025-10-12T16:46:31.699Z",
+  "createdAt": "2025-10-02T00:33:40.657Z",
+  "id": "Uk8Q0AhG0httBhR5",
+  "name": "Temporary Email Generator",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "046e14fb-a40a-42b4-a3af-980fc2d72c82",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "domain",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        416,
+        0
+      ],
+      "id": "f4a7adb4-b600-48ba-9f11-f72912ee3725",
+      "name": "Split Out",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get all incoming items (from API node)\nconst items = $input.all();\n\n// Random string generator (safe alphanumerics)\nfunction randomString(length = 10) {\n  const uppers = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';\n  const lowers = 'abcdefghijklmnopqrstuvwxyz';\n  const nums = '0123456789';\n  const all = uppers + lowers + nums;\n\n  // ensure requirements\n  const result = [\n    uppers[Math.floor(Math.random() * uppers.length)],\n    lowers[Math.floor(Math.random() * lowers.length)],\n    nums[Math.floor(Math.random() * nums.length)]\n  ];\n\n  // fill remaining\n  while (result.length < Math.max(length, 9)) {\n    result.push(all[Math.floor(Math.random() * all.length)]);\n  }\n\n  // shuffle to randomize order\n  for (let i = result.length - 1; i > 0; i--) {\n    const j = Math.floor(Math.random() * (i + 1));\n    [result[i], result[j]] = [result[j], result[i]];\n  }\n\n  return result.join('');\n}\n\nreturn items.map(item => {\n  return {\n    json: {\n      ...item.json,\n      email: randomString(16),  // add random string\n    }\n  }\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        608,
+        0
+      ],
+      "id": "68fe4ac8-e243-41bb-a498-a92265c47317",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b4104b98-790d-49c5-9e57-57033fee23be",
+              "name": "email",
+              "value": "={{ $json.email }}@{{ $json.domain }}",
+              "type": "string"
+            },
+            {
+              "id": "b5b16103-718f-4254-adc2-c28d6aed8363",
+              "name": "password",
+              "value": "={{ $json.email }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        800,
+        0
+      ],
+      "id": "9768d65e-560b-41f0-8e4e-a1c29aea3673",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "url": "https://api.mail.tm/domains",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        208,
+        0
+      ],
+      "id": "6b675e16-81d8-4ad7-a870-b9ff791dac80",
+      "name": "Get Domains"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.mail.tm/accounts",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "address",
+              "value": "={{ $json.email }}"
+            },
+            {
+              "name": "password",
+              "value": "={{ $json.password }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        800,
+        240
+      ],
+      "id": "792581b1-663c-498f-b363-603b733bd921",
+      "name": "Create Email Account"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.mail.tm/token",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "address",
+              "value": "={{ $json.address }}"
+            },
+            {
+              "name": "password",
+              "value": "={{ $('Edit Fields').item.json.password }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        800,
+        480
+      ],
+      "id": "a00c7826-3c5e-4523-ab41-e27d12dad25f",
+      "name": "Create Access Token"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "57aed272-2267-4fa7-8e25-02fdd51eb358",
+              "name": "id",
+              "value": "={{ $json.id }}",
+              "type": "string"
+            },
+            {
+              "id": "7d5e81ec-f986-4469-a76e-48b2afc5c7a4",
+              "name": "email",
+              "value": "={{ $('Create Email Account').item.json.address }}",
+              "type": "string"
+            },
+            {
+              "id": "6643c0ba-25aa-453d-89d8-b0e2a229a7fe",
+              "name": "password",
+              "value": "={{ $('Edit Fields').item.json.password }}",
+              "type": "string"
+            },
+            {
+              "id": "72d0dc2e-9028-4f4d-b0e5-f5ad5f221b7b",
+              "name": "access-token",
+              "value": "={{ $json.token }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        992,
+        480
+      ],
+      "id": "76d6f3b6-bc89-4c27-8ad5-0b292877ed66",
+      "name": "Output Mapping"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        656
+      ],
+      "id": "80a54aff-38ca-4e4b-8e6b-580bb0c3970e",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "url": "https://api.mail.tm/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "accept",
+              "value": "application/ld+json"
+            },
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $json['access-token'] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        208,
+        656
+      ],
+      "id": "db91ae7a-01be-4277-9a13-43adfd5cfd0d",
+      "name": "Get Emails"
+    }
+  ],
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Get Domains",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Create Email Account",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Domains": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Email Account": {
+      "main": [
+        [
+          {
+            "node": "Create Access Token",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Access Token": {
+      "main": [
+        [
+          {
+            "node": "Output Mapping",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Get Emails",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "0f30142a-6c51-4d49-a725-6086c1d87b39",
+  "versionCounter": 1,
+  "triggerCount": 0,
+  "tags": [
+    {
+      "updatedAt": "2025-10-02T00:33:35.324Z",
+      "createdAt": "2025-10-02T00:33:35.324Z",
+      "id": "1iYVqLnt7f2NLEMF",
+      "name": "Utility"
+    }
+  ],
+  "shared": [
+    {
+      "updatedAt": "2025-11-13T12:04:31.666Z",
+      "createdAt": "2025-11-13T12:04:31.666Z",
+      "role": "workflow:owner",
+      "workflowId": "Uk8Q0AhG0httBhR5",
+      "projectId": "73UWjerCMPjP5ofU",
+      "project": {
+        "updatedAt": "2025-11-13T11:55:27.881Z",
+        "createdAt": "2025-11-13T11:53:22.454Z",
+        "id": "73UWjerCMPjP5ofU",
+        "name": "Xavier Wallis <wallisxavier04@gmail.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null
+      }
+    }
+  ]
+}

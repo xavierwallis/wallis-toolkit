@@ -1,0 +1,200 @@
+{
+  "updatedAt": "2025-10-12T01:33:14.499Z",
+  "createdAt": "2025-10-11T23:56:37.100Z",
+  "id": "yzepPpwZVplGTWcx",
+  "name": "Strudel Assistant",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        0,
+        0
+      ],
+      "id": "4d329056-1a29-425a-b18c-edcce43feddb",
+      "name": "When chat message received",
+      "webhookId": "69260f3c-9c73-4640-8cdb-4d043c2519e5"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "you are an expert strudel agent who will get requests and you must respond consulting the strudel documentation which is a tool you will call at every prompt\nyou will get a prompt and you must responded with correct syntax answer as a one line tag: <strudel code> format so I can copy and paste it into strudels repl.\nif necessary and want to provide multiple seperate each by newline"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        208,
+        0
+      ],
+      "id": "ff5aff8b-fdfc-4f98-9e39-8a572a430ec6",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-5",
+          "mode": "list",
+          "cachedResultName": "gpt-5"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        208,
+        224
+      ],
+      "id": "c247e365-da48-4078-9a88-4c251c3cc369",
+      "name": "GPT-5",
+      "credentials": {
+        "openAiApi": {
+          "id": "1AFkC1eX6E82j9HC",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "contextWindowLength": 2
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        304,
+        336
+      ],
+      "id": "153c6bca-53a8-432f-8e0d-89d64904231c",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "description": "Call this tool to receive the full strudel documentation. consult this to ensure correct output.",
+        "workflowId": {
+          "__rl": true,
+          "value": "n0qxBMFJR7VMWfe9",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/n0qxBMFJR7VMWfe9",
+          "cachedResultName": "Studel Doc"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        352,
+        192
+      ],
+      "id": "d69a0a76-555c-48c8-b259-bac5c7e2f274",
+      "name": "Call 'Studel Doc'"
+    }
+  ],
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GPT-5": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call 'Studel Doc'": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "d8bb61f7-f911-4e1e-b728-178f8fb0ff77",
+  "versionCounter": 1,
+  "triggerCount": 0,
+  "tags": [
+    {
+      "updatedAt": "2025-10-12T00:19:53.619Z",
+      "createdAt": "2025-10-12T00:19:53.619Z",
+      "id": "Fd066eJw2G6orlUH",
+      "name": "Strudel"
+    },
+    {
+      "updatedAt": "2025-10-06T02:12:11.622Z",
+      "createdAt": "2025-10-06T02:11:57.699Z",
+      "id": "91DAVmbcpjEIcFnj",
+      "name": "Chat"
+    },
+    {
+      "updatedAt": "2025-10-06T02:12:25.111Z",
+      "createdAt": "2025-10-06T02:12:25.111Z",
+      "id": "0oOpDFbhga2fYIiB",
+      "name": "Agent"
+    }
+  ],
+  "shared": [
+    {
+      "updatedAt": "2025-11-13T12:04:41.737Z",
+      "createdAt": "2025-11-13T12:04:41.737Z",
+      "role": "workflow:owner",
+      "workflowId": "yzepPpwZVplGTWcx",
+      "projectId": "73UWjerCMPjP5ofU",
+      "project": {
+        "updatedAt": "2025-11-13T11:55:27.881Z",
+        "createdAt": "2025-11-13T11:53:22.454Z",
+        "id": "73UWjerCMPjP5ofU",
+        "name": "Xavier Wallis <wallisxavier04@gmail.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null
+      }
+    }
+  ]
+}

@@ -1,0 +1,614 @@
+{
+  "updatedAt": "2025-10-15T05:47:12.263Z",
+  "createdAt": "2025-10-11T18:21:14.190Z",
+  "id": "OGmEokU50xAmSgqs",
+  "name": "Upload NCAAFB Data",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "5bbbH54e9I3v5lkn",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/5bbbH54e9I3v5lkn",
+          "cachedResultName": "Get NCAAFB Data"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        16,
+        64
+      ],
+      "id": "55074f34-14a4-4cc6-a942-6d57d974ad2e",
+      "name": "Get NCAAFB Data"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "X5yvxIsEc5hnlumj",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/X5yvxIsEc5hnlumj",
+          "cachedResultName": "Upload Sport Data"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "away": "={{ $json.away }}",
+            "home": "={{ $json.home }}",
+            "starts_at": "={{ $json.starts_at }}",
+            "table": "ncaafb"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "away",
+              "displayName": "away",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "home",
+              "displayName": "home",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "starts_at",
+              "displayName": "starts_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "table",
+              "displayName": "table",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        512,
+        48
+      ],
+      "id": "b53d39d3-12c2-4ecc-b4d2-93cc21890b47",
+      "name": "Upload Sport Data",
+      "alwaysOutputData": false,
+      "retryOnFail": false,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -480,
+        80
+      ],
+      "id": "6d3f7150-a5aa-4a91-9e4a-c5c682ba2ea5",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "6ZPrRwhjODQtkpjP",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/6ZPrRwhjODQtkpjP",
+          "cachedResultName": "Log"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "log-file-name": "jts-sports-log",
+            "message": "=[!] NCAAFB Failed to upload : {{ $json.error }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "log-file-name",
+              "displayName": "log-file-name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "message",
+              "displayName": "message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        624,
+        240
+      ],
+      "id": "8d4ba1aa-6244-41c6-930e-f8db0ec7eba6",
+      "name": "NCAAFB Error Log"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "6ZPrRwhjODQtkpjP",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/6ZPrRwhjODQtkpjP",
+          "cachedResultName": "Log"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "log-file-name": "jts-sports-log",
+            "message": "[+] NCAAFB Successfully Uploaded"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "log-file-name",
+              "displayName": "log-file-name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "message",
+              "displayName": "message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        928,
+        32
+      ],
+      "id": "03968fb0-ed4d-40e7-9b27-8d66d17542f8",
+      "name": "NCAAFB Success Log"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "f7ee4c19-2d70-466b-afb6-cce252307fc9",
+              "leftValue": "={{ $json.away }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "exists",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "89d9d6d7-c83c-4f67-9cbb-e155266b1f24",
+              "leftValue": "={{ $json.home }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        224,
+        64
+      ],
+      "id": "4a67c8f4-d974-4cd6-923d-d05779b30616",
+      "name": "Games Today?"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "6ZPrRwhjODQtkpjP",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/6ZPrRwhjODQtkpjP",
+          "cachedResultName": "Log"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "log-file-name": "just-the-stats-sports",
+            "message": "[-] No NCAAFB Games Today"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "log-file-name",
+              "displayName": "log-file-name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "message",
+              "displayName": "message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        336,
+        256
+      ],
+      "id": "7bf04dc5-61e1-4778-adc9-f611b49fe537",
+      "name": "No Games Log"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1104,
+        256
+      ],
+      "id": "1ebbb15d-ae6e-470d-8edc-90d63f9f7808",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {}
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        1216,
+        32
+      ],
+      "id": "b503ca00-d216-4d9c-8fd0-955c0a8e0b16",
+      "name": "Clean Up"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "2x6Cq4i77K1B6biK",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/2x6Cq4i77K1B6biK",
+          "cachedResultName": "Ledger"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "identifier": "ncaafb-ledger"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "identifier",
+              "displayName": "identifier",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        -240,
+        80
+      ],
+      "id": "137bef0d-fc20-42e4-a8ac-94566878f203",
+      "name": "Call 'Ledger'",
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "6ZPrRwhjODQtkpjP",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/6ZPrRwhjODQtkpjP",
+          "cachedResultName": "Log"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "log-file-name": "just-the-stats-sports",
+            "message": "[*] NCAAFB Already Ran Today"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "log-file-name",
+              "displayName": "log-file-name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "message",
+              "displayName": "message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        -128,
+        272
+      ],
+      "id": "fde41fbe-7638-4da7-8b3a-d9f0326e23d7",
+      "name": "Already Ran Today"
+    }
+  ],
+  "connections": {
+    "Get NCAAFB Data": {
+      "main": [
+        [
+          {
+            "node": "Games Today?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Call 'Ledger'",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload Sport Data": {
+      "main": [
+        [
+          {
+            "node": "NCAAFB Success Log",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "NCAAFB Error Log",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Games Today?": {
+      "main": [
+        [
+          {
+            "node": "Upload Sport Data",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Games Log",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "No Operation, do nothing": {
+      "main": [
+        [
+          {
+            "node": "Clean Up",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "NCAAFB Success Log": {
+      "main": [
+        [
+          {
+            "node": "Clean Up",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "NCAAFB Error Log": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "No Games Log": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call 'Ledger'": {
+      "main": [
+        [
+          {
+            "node": "Get NCAAFB Data",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Already Ran Today",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "6cf58f78-2c8d-4f46-8378-752976faf804",
+  "versionCounter": 1,
+  "triggerCount": 0,
+  "tags": [
+    {
+      "updatedAt": "2025-10-02T00:33:35.324Z",
+      "createdAt": "2025-10-02T00:33:35.324Z",
+      "id": "1iYVqLnt7f2NLEMF",
+      "name": "Utility"
+    },
+    {
+      "updatedAt": "2025-10-02T00:33:52.277Z",
+      "createdAt": "2025-10-02T00:33:52.277Z",
+      "id": "yviS9e4IWkYvxcsn",
+      "name": "Just The Stats Sports"
+    }
+  ],
+  "shared": [
+    {
+      "updatedAt": "2025-11-13T12:04:09.342Z",
+      "createdAt": "2025-11-13T12:04:09.342Z",
+      "role": "workflow:owner",
+      "workflowId": "OGmEokU50xAmSgqs",
+      "projectId": "73UWjerCMPjP5ofU",
+      "project": {
+        "updatedAt": "2025-11-13T11:55:27.881Z",
+        "createdAt": "2025-11-13T11:53:22.454Z",
+        "id": "73UWjerCMPjP5ofU",
+        "name": "Xavier Wallis <wallisxavier04@gmail.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null
+      }
+    }
+  ]
+}

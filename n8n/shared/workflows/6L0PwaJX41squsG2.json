@@ -1,0 +1,184 @@
+{
+  "updatedAt": "2025-10-08T14:51:14.851Z",
+  "createdAt": "2025-10-08T14:36:58.457Z",
+  "id": "6L0PwaJX41squsG2",
+  "name": "Write Icon Maps",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "name-to-icon-map",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "code",
+              "fieldType": "textarea",
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.3,
+      "position": [
+        112,
+        144
+      ],
+      "id": "ccfdad43-7f95-4deb-9c11-00c4fa80f166",
+      "name": "On form submission",
+      "webhookId": "2b770028-5ae1-4318-b812-e3f6a5e6b050"
+    },
+    {
+      "parameters": {
+        "operation": "toText",
+        "sourceProperty": "data",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        752,
+        144
+      ],
+      "id": "e0938644-9548-46bd-b108-70764ccc22c0",
+      "name": "Convert to File"
+    },
+    {
+      "parameters": {
+        "operation": "completion",
+        "completionTitle": "Thank you",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.form",
+      "typeVersion": 2.3,
+      "position": [
+        304,
+        144
+      ],
+      "id": "ad259b70-cc4e-41b7-a5b3-264d1f7ad055",
+      "name": "Form",
+      "webhookId": "d59f01cd-5791-4f42-84bb-e3617e06c00d"
+    },
+    {
+      "parameters": {
+        "jsCode": "const raw = $input.first().json.code || '';\nconst csv = raw.replace(/\\\\r?\\\\n/g, '\\n').trim();\n\nreturn [{\n  json: { data: csv }\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        544,
+        144
+      ],
+      "id": "802f808e-31e3-4940-b94a-ab6cc97a10c8",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        992,
+        144
+      ],
+      "id": "3645e7e5-6839-4b3f-aa1c-11ecb3952ac1",
+      "name": "Extract from File"
+    }
+  ],
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Form",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Form": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "52938890-023e-4f73-b7f6-d1c45de574c6",
+  "versionCounter": 1,
+  "triggerCount": 0,
+  "tags": [
+    {
+      "updatedAt": "2025-10-08T14:50:52.082Z",
+      "createdAt": "2025-10-08T14:50:52.082Z",
+      "id": "PRTiqt9maIY32AHR",
+      "name": "Persistent"
+    },
+    {
+      "updatedAt": "2025-10-02T00:33:52.277Z",
+      "createdAt": "2025-10-02T00:33:52.277Z",
+      "id": "yviS9e4IWkYvxcsn",
+      "name": "Just The Stats Sports"
+    },
+    {
+      "updatedAt": "2025-10-08T14:50:21.074Z",
+      "createdAt": "2025-10-08T14:50:21.074Z",
+      "id": "Zib0cePyRZg5gDSN",
+      "name": "Form"
+    }
+  ],
+  "shared": [
+    {
+      "updatedAt": "2025-11-13T12:03:26.118Z",
+      "createdAt": "2025-11-13T12:03:26.118Z",
+      "role": "workflow:owner",
+      "workflowId": "6L0PwaJX41squsG2",
+      "projectId": "73UWjerCMPjP5ofU",
+      "project": {
+        "updatedAt": "2025-11-13T11:55:27.881Z",
+        "createdAt": "2025-11-13T11:53:22.454Z",
+        "id": "73UWjerCMPjP5ofU",
+        "name": "Xavier Wallis <wallisxavier04@gmail.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null
+      }
+    }
+  ]
+}

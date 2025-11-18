@@ -1,0 +1,45 @@
+{
+  "updatedAt": "2025-10-06T02:12:48.430Z",
+  "createdAt": "2025-10-06T02:12:42.850Z",
+  "id": "WmiJF1kHOhuuPNTH",
+  "name": "Copy",
+  "active": false,
+  "isArchived": false,
+  "nodes": [],
+  "connections": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "8ad6f419-edd3-4c14-9719-6ded9c1d67df",
+  "versionCounter": 1,
+  "triggerCount": 0,
+  "tags": [
+    {
+      "updatedAt": "2025-10-02T00:33:35.324Z",
+      "createdAt": "2025-10-02T00:33:35.324Z",
+      "id": "1iYVqLnt7f2NLEMF",
+      "name": "Utility"
+    }
+  ],
+  "shared": [
+    {
+      "updatedAt": "2025-11-13T12:04:35.984Z",
+      "createdAt": "2025-11-13T12:04:35.984Z",
+      "role": "workflow:owner",
+      "workflowId": "WmiJF1kHOhuuPNTH",
+      "projectId": "73UWjerCMPjP5ofU",
+      "project": {
+        "updatedAt": "2025-11-13T11:55:27.881Z",
+        "createdAt": "2025-11-13T11:53:22.454Z",
+        "id": "73UWjerCMPjP5ofU",
+        "name": "Xavier Wallis <wallisxavier04@gmail.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null
+      }
+    }
+  ]
+}

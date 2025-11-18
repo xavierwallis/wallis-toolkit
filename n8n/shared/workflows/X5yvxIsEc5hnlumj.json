@@ -1,0 +1,888 @@
+{
+  "updatedAt": "2025-11-13T12:22:12.873Z",
+  "createdAt": "2025-10-08T14:04:26.692Z",
+  "id": "X5yvxIsEc5hnlumj",
+  "name": "Upload Sport Data",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "away",
+              "type": "object"
+            },
+            {
+              "name": "home",
+              "type": "object"
+            },
+            {
+              "name": "starts_at"
+            },
+            {
+              "name": "table"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        32,
+        0
+      ],
+      "id": "75904951-81b6-4f1b-9e19-bc4a51243ae5",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "tableId": "={{ $json.table }}",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "starts_at",
+              "fieldValue": "={{ $json.starts_at }}"
+            },
+            {
+              "fieldId": "away",
+              "fieldValue": "={{ $json.away }}"
+            },
+            {
+              "fieldId": "home",
+              "fieldValue": "={{ $json.home }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        800,
+        0
+      ],
+      "id": "5c62d710-93ab-4fa3-bb9a-ea5896762a49",
+      "name": "Create a row",
+      "credentials": {
+        "supabaseApi": {
+          "id": "Eg6vR3ElM9QE3FFl",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "e12cded5-229f-42ea-beb9-9c934705d1c1",
+              "leftValue": "={{ $json.away }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "exists",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "b2badd69-596e-4e28-87c7-0fedef0befb5",
+              "leftValue": "={{ $json.home }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "exists",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "4aa69eef-cecc-42f4-9e7d-84ffd6d33f34",
+              "leftValue": "={{ $json.starts_at }}",
+              "rightValue": "",
+              "operator": {
+                "type": "dateTime",
+                "operation": "exists",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "d4497b0f-bc95-4b9f-a094-814471e01d6b",
+              "leftValue": "=",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        240,
+        0
+      ],
+      "id": "510d7675-9135-446a-bc68-adb40401f97a",
+      "name": "If there are games"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        544,
+        -16
+      ],
+      "id": "39ee4f8d-d13c-4167-b7b3-120218b7334b",
+      "name": "Loop Over Games"
+    }
+  ],
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "If there are games",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a row": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Games",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If there are games": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Games",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Games": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Create a row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "When Executed by Another Workflow": [
+      {
+        "json": {
+          "away": {
+            "abbreviation": "WSH",
+            "name": "Washington Capitals",
+            "icon": "https://assets.nhle.com/logos/nhl/svg/WSH_secondary_light.svg"
+          },
+          "broadcasts": [
+            {
+              "network": "ESPN+",
+              "type": "Internet",
+              "locale": "National"
+            },
+            {
+              "network": "MNMT",
+              "type": "TV",
+              "locale": "Away",
+              "channel": "642"
+            }
+          ],
+          "coverage": "full",
+          "home": {
+            "abbreviation": "FLA",
+            "name": "Florida Panthers",
+            "icon": "https://assets.nhle.com/logos/nhl/svg/FLA_light.svg"
+          },
+          "id": "20a21d0d-d0bf-4792-802b-b57a7636cf2e",
+          "reference": "20273",
+          "scheduled": "2025-11-14T00:00:00Z",
+          "season": {
+            "id": "4a67cca6-b450-45f9-91c6-48e92ac19069",
+            "year": 2025,
+            "type": "REG"
+          },
+          "sr_id": "sr:match:62071974",
+          "status": "scheduled",
+          "time_zones": {
+            "venue": "US/Eastern",
+            "home": "US/Eastern",
+            "away": "US/Eastern"
+          },
+          "venue": {
+            "id": "7cc8e88f-9196-4dbc-aa6a-d6f1a0550673",
+            "name": "Amerant Bank Arena",
+            "capacity": 19250,
+            "address": "1 Panther Parkway",
+            "city": "Sunrise",
+            "state": "FL",
+            "zip": "33323",
+            "country": "USA",
+            "time_zone": "US/Eastern",
+            "sr_id": "sr:venue:6004",
+            "location": {
+              "lat": "26.15847",
+              "lng": "-80.32555"
+            }
+          },
+          "starts_at": "2025-11-13 19:00:00",
+          "table": "nhl"
+        }
+      },
+      {
+        "json": {
+          "away": {
+            "abbreviation": "LA",
+            "name": "Los Angeles Kings",
+            "icon": "https://assets.nhle.com/logos/nhl/svg/LAK_light.svg"
+          },
+          "broadcasts": [
+            {
+              "network": "ESPN+",
+              "type": "Internet",
+              "locale": "National"
+            },
+            {
+              "network": "FDSW",
+              "type": "TV",
+              "locale": "Away",
+              "channel": "692"
+            }
+          ],
+          "coverage": "full",
+          "home": {
+            "abbreviation": "TOR",
+            "name": "Toronto Maple Leafs",
+            "icon": "https://assets.nhle.com/logos/nhl/svg/TOR_light.svg"
+          },
+          "id": "3da9ed7a-7bf0-4024-91d7-eec586323c8f",
+          "reference": "20269",
+          "scheduled": "2025-11-14T00:00:00Z",
+          "season": {
+            "id": "4a67cca6-b450-45f9-91c6-48e92ac19069",
+            "year": 2025,
+            "type": "REG"
+          },
+          "sr_id": "sr:match:62071978",
+          "status": "scheduled",
+          "time_zones": {
+            "venue": "US/Eastern",
+            "home": "US/Eastern",
+            "away": "US/Pacific"
+          },
+          "venue": {
+            "id": "a84c7004-18b2-4c5d-a036-f0c368c08bc5",
+            "name": "Scotiabank Arena",
+            "capacity": 18819,
+            "address": "40 Bay Street",
+            "city": "Toronto",
+            "state": "ON",
+            "zip": "M5J 2X2",
+            "country": "CAN",
+            "time_zone": "US/Eastern",
+            "sr_id": "sr:venue:6030",
+            "location": {
+              "lat": "43.64362911290751",
+              "lng": "-79.37914181738135"
+            }
+          },
+          "starts_at": "2025-11-13 19:00:00",
+          "table": "nhl"
+        }
+      },
+      {
+        "json": {
+          "away": {
+            "abbreviation": "ANA",
+            "name": "Anaheim Ducks",
+            "icon": "https://assets.nhle.com/logos/nhl/svg/ANA_light.svg"
+          },
+          "broadcasts": [
+            {
+              "network": "ESPN+",
+              "type": "Internet",
+              "locale": "National"
+            },
+            {
+              "network": "FDSDET",
+              "type": "TV",
+              "locale": "Home",
+              "channel": "663"
+            },
+            {
+              "network": "KTTV",
+              "type": "TV",
+              "locale": "Away"
+            },
+            {
+              "network": "Victory+",
+              "type": "Internet",
+              "locale": "Away"
+            }
+          ],
+          "coverage": "full",
+          "home": {
+            "abbreviation": "DET",
+            "name": "Detroit Red Wings",
+            "icon": "https://assets.nhle.com/logos/nhl/svg/DET_light.svg"
+          },
+          "id": "88ed1b44-edd5-4ce1-ad0f-11f0a5de675a",
+          "reference": "20272",
+          "scheduled": "2025-11-14T00:00:00Z",
+          "season": {
+            "id": "4a67cca6-b450-45f9-91c6-48e92ac19069",
+            "year": 2025,
+            "type": "REG"
+          },
+          "sr_id": "sr:match:62071980",
+          "status": "scheduled",
+          "time_zones": {
+            "venue": "US/Eastern",
+            "home": "US/Eastern",
+            "away": "US/Pacific"
+          },
+          "venue": {
+            "id": "45e58342-29f5-4ebb-b28d-5d865328da16",
+            "name": "Little Caesars Arena",
+            "capacity": 20000,
+            "address": "2645 Woodward Avenue",
+            "city": "Detroit",
+            "state": "MI",
+            "zip": "48201",
+            "country": "USA",
+            "time_zone": "US/Eastern",
+            "sr_id": "sr:venue:21782",
+            "location": {
+              "lat": "42.34107",
+              "lng": "-83.05504"
+            }
+          },
+          "starts_at": "2025-11-13 19:00:00",
+          "table": "nhl"
+        }
+      },
+      {
+        "json": {
+          "away": {
+            "abbreviation": "DAL",
+            "name": "Dallas Stars",
+            "icon": "https://assets.nhle.com/logos/nhl/svg/DAL_light.svg"
+          },
+          "broadcasts": [
+            {
+              "network": "ESPN+",
+              "type": "Internet",
+              "locale": "National"
+            },
+            {
+              "network": "Victory+",
+              "type": "Internet",
+              "locale": "Away"
+            }
+          ],
+          "coverage": "full",
+          "home": {
+            "abbreviation": "MTL",
+            "name": "Montreal Canadiens",
+            "icon": "https://assets.nhle.com/logos/nhl/svg/MTL_light.svg"
+          },
+          "id": "ce8bbd0a-e8b4-4d3a-b7ee-4e5c60b1be18",
+          "reference": "20270",
+          "scheduled": "2025-11-14T00:00:00Z",
+          "season": {
+            "id": "4a67cca6-b450-45f9-91c6-48e92ac19069",
+            "year": 2025,
+            "type": "REG"
+          },
+          "sr_id": "sr:match:62071982",
+          "status": "scheduled",
+          "time_zones": {
+            "venue": "US/Eastern",
+            "home": "US/Eastern",
+            "away": "US/Central"
+          },
+          "venue": {
+            "id": "2ee8c0bf-dfd1-480c-80df-4d5f66a9dc76",
+            "name": "Bell Centre",
+            "capacity": 21288,
+            "address": "1909 Avenue des Canadiens-de-Montreal",
+            "city": "Montreal",
+            "state": "QC",
+            "zip": "H3B 5E8",
+            "country": "CAN",
+            "time_zone": "US/Eastern",
+            "sr_id": "sr:venue:6034",
+            "location": {
+              "lat": "45.49604",
+              "lng": "-73.56937"
+            }
+          },
+          "starts_at": "2025-11-13 19:00:00",
+          "table": "nhl"
+        }
+      },
+      {
+        "json": {
+          "away": {
+            "abbreviation": "BOS",
+            "name": "Boston Bruins",
+            "icon": "https://assets.nhle.com/logos/nhl/svg/BOS_light.svg"
+          },
+          "broadcasts": [
+            {
+              "network": "ESPN+",
+              "type": "Internet",
+              "locale": "National"
+            },
+            {
+              "network": "NESN",
+              "type": "TV",
+              "locale": "Away",
+              "channel": "628"
+            }
+          ],
+          "coverage": "full",
+          "home": {
+            "abbreviation": "OTT",
+            "name": "Ottawa Senators",
+            "icon": "https://assets.nhle.com/logos/nhl/svg/OTT_light.svg"
+          },
+          "id": "dfe6c9af-4429-4c6d-bccc-b0e10404a9f3",
+          "reference": "20271",
+          "scheduled": "2025-11-14T00:00:00Z",
+          "season": {
+            "id": "4a67cca6-b450-45f9-91c6-48e92ac19069",
+            "year": 2025,
+            "type": "REG"
+          },
+          "sr_id": "sr:match:62071984",
+          "status": "scheduled",
+          "time_zones": {
+            "venue": "US/Eastern",
+            "home": "US/Eastern",
+            "away": "US/Eastern"
+          },
+          "venue": {
+            "id": "e1e675a3-9c13-48b3-9e22-4c063dd9905d",
+            "name": "Canadian Tire Centre",
+            "capacity": 18572,
+            "address": "1000 Palladium Drive",
+            "city": "Ottawa",
+            "state": "ON",
+            "zip": "K2V 1A5",
+            "country": "CAN",
+            "time_zone": "US/Eastern",
+            "sr_id": "sr:venue:6066",
+            "location": {
+              "lat": "45.29703",
+              "lng": "-75.92677"
+            }
+          },
+          "starts_at": "2025-11-13 19:00:00",
+          "table": "nhl"
+        }
+      },
+      {
+        "json": {
+          "away": {
+            "abbreviation": "EDM",
+            "name": "Edmonton Oilers",
+            "icon": "https://assets.nhle.com/logos/nhl/svg/EDM_light.svg"
+          },
+          "broadcasts": [
+            {
+              "network": "ESPN+",
+              "type": "Internet",
+              "locale": "National"
+            },
+            {
+              "network": "Hulu",
+              "type": "Internet",
+              "locale": "National"
+            }
+          ],
+          "coverage": "full",
+          "home": {
+            "abbreviation": "CBJ",
+            "name": "Columbus Blue Jackets",
+            "icon": "https://assets.nhle.com/logos/nhl/svg/CBJ_light.svg"
+          },
+          "id": "3da57a0c-a2a8-4854-a2ba-2061adc539f1",
+          "reference": "20274",
+          "scheduled": "2025-11-14T00:30:00Z",
+          "season": {
+            "id": "4a67cca6-b450-45f9-91c6-48e92ac19069",
+            "year": 2025,
+            "type": "REG"
+          },
+          "sr_id": "sr:match:62071976",
+          "status": "scheduled",
+          "time_zones": {
+            "venue": "US/Eastern",
+            "home": "US/Eastern",
+            "away": "US/Mountain"
+          },
+          "venue": {
+            "id": "41a57fc9-a04b-43db-b1f8-87f34f21459b",
+            "name": "Nationwide Arena",
+            "capacity": 18500,
+            "address": "200 W Nationwide Boulevard",
+            "city": "Columbus",
+            "state": "OH",
+            "zip": "43215",
+            "country": "USA",
+            "time_zone": "US/Eastern",
+            "sr_id": "sr:venue:5982",
+            "location": {
+              "lat": "39.96937",
+              "lng": "-83.00597"
+            }
+          },
+          "starts_at": "2025-11-13 19:30:00",
+          "table": "nhl"
+        }
+      },
+      {
+        "json": {
+          "away": {
+            "abbreviation": "BUF",
+            "name": "Buffalo Sabres",
+            "icon": "https://assets.nhle.com/logos/nhl/svg/BUF_light.svg"
+          },
+          "broadcasts": [
+            {
+              "network": "ESPN+",
+              "type": "Internet",
+              "locale": "National"
+            },
+            {
+              "network": "ALT",
+              "type": "TV",
+              "locale": "Home",
+              "channel": "681"
+            },
+            {
+              "network": "KUSA",
+              "type": "TV",
+              "locale": "Home"
+            },
+            {
+              "network": "KTVD",
+              "type": "TV",
+              "locale": "Home"
+            },
+            {
+              "network": "MSG-B",
+              "type": "TV",
+              "locale": "Away",
+              "channel": "635-1"
+            }
+          ],
+          "coverage": "full",
+          "home": {
+            "abbreviation": "COL",
+            "name": "Colorado Avalanche",
+            "icon": "https://assets.nhle.com/logos/nhl/svg/COL_light.svg"
+          },
+          "id": "055478b7-7ec5-4566-88a5-99217e592041",
+          "reference": "20275",
+          "scheduled": "2025-11-14T02:00:00Z",
+          "season": {
+            "id": "4a67cca6-b450-45f9-91c6-48e92ac19069",
+            "year": 2025,
+            "type": "REG"
+          },
+          "sr_id": "sr:match:62071986",
+          "status": "scheduled",
+          "time_zones": {
+            "venue": "US/Mountain",
+            "home": "US/Mountain",
+            "away": "US/Eastern"
+          },
+          "venue": {
+            "id": "a75eea49-c384-4edb-99f1-d5252773ec83",
+            "name": "Ball Arena",
+            "capacity": 18007,
+            "address": "1000 Chopper Circle",
+            "city": "Denver",
+            "state": "CO",
+            "zip": "80204",
+            "country": "USA",
+            "time_zone": "US/Mountain",
+            "sr_id": "sr:venue:5976",
+            "location": {
+              "lat": "39.74867",
+              "lng": "-105.00772"
+            }
+          },
+          "starts_at": "2025-11-13 21:00:00",
+          "table": "nhl"
+        }
+      },
+      {
+        "json": {
+          "away": {
+            "abbreviation": "SJ",
+            "name": "San Jose Sharks",
+            "icon": "https://assets.nhle.com/logos/nhl/svg/SJS_light.svg"
+          },
+          "broadcasts": [
+            {
+              "network": "ESPN+",
+              "type": "Internet",
+              "locale": "National"
+            },
+            {
+              "network": "NBCS-CA",
+              "type": "TV",
+              "locale": "Away",
+              "channel": "698"
+            }
+          ],
+          "coverage": "full",
+          "home": {
+            "abbreviation": "CGY",
+            "name": "Calgary Flames",
+            "icon": "https://assets.nhle.com/logos/nhl/svg/CGY_light.svg"
+          },
+          "id": "5e4c1bdb-4514-4002-8660-d862b8b706ff",
+          "reference": "20276",
+          "scheduled": "2025-11-14T02:00:00Z",
+          "season": {
+            "id": "4a67cca6-b450-45f9-91c6-48e92ac19069",
+            "year": 2025,
+            "type": "REG"
+          },
+          "sr_id": "sr:match:62071988",
+          "status": "scheduled",
+          "time_zones": {
+            "venue": "US/Mountain",
+            "home": "US/Mountain",
+            "away": "US/Pacific"
+          },
+          "venue": {
+            "id": "152d63d2-825f-4928-a08a-70564268b405",
+            "name": "Scotiabank Saddledome",
+            "capacity": 19289,
+            "address": "555 Saddledome Rise SE",
+            "city": "Calgary",
+            "state": "AB",
+            "zip": "T2G 2W1",
+            "country": "CAN",
+            "time_zone": "US/Mountain",
+            "sr_id": "sr:venue:5952",
+            "location": {
+              "lat": "51.037568500041424",
+              "lng": "-114.05195555949291"
+            }
+          },
+          "starts_at": "2025-11-13 21:00:00",
+          "table": "nhl"
+        }
+      },
+      {
+        "json": {
+          "away": {
+            "abbreviation": "NYI",
+            "name": "New York Islanders",
+            "icon": "https://assets.nhle.com/logos/nhl/svg/NYI_light.svg"
+          },
+          "broadcasts": [
+            {
+              "network": "ESPN+",
+              "type": "Internet",
+              "locale": "National"
+            },
+            {
+              "network": "SCRIPPS",
+              "type": "TV",
+              "locale": "Home"
+            },
+            {
+              "network": "MSGSN",
+              "type": "TV",
+              "locale": "Away",
+              "channel": "635"
+            }
+          ],
+          "coverage": "full",
+          "home": {
+            "abbreviation": "VGK",
+            "name": "Vegas Golden Knights",
+            "icon": "https://assets.nhle.com/logos/nhl/svg/VGK_light.svg"
+          },
+          "id": "3036cda5-a513-4a40-9a3d-b6d4dcb636fd",
+          "reference": "20277",
+          "scheduled": "2025-11-14T03:00:00Z",
+          "season": {
+            "id": "4a67cca6-b450-45f9-91c6-48e92ac19069",
+            "year": 2025,
+            "type": "REG"
+          },
+          "sr_id": "sr:match:62071990",
+          "status": "scheduled",
+          "time_zones": {
+            "venue": "US/Pacific",
+            "home": "US/Pacific",
+            "away": "US/Eastern"
+          },
+          "venue": {
+            "id": "17d90f56-d6fc-4d73-9cc7-4991d6da72f4",
+            "name": "T-Mobile Arena",
+            "capacity": 17367,
+            "address": "3780 South Las Vegas Boulevard",
+            "city": "Las Vegas",
+            "state": "NV",
+            "zip": "89158",
+            "country": "USA",
+            "time_zone": "US/Pacific",
+            "sr_id": "sr:venue:20621",
+            "location": {
+              "lat": "36.10277",
+              "lng": "-115.17812"
+            }
+          },
+          "starts_at": "2025-11-13 22:00:00",
+          "table": "nhl"
+        }
+      },
+      {
+        "json": {
+          "away": {
+            "abbreviation": "WPG",
+            "name": "Winnipeg Jets",
+            "icon": "https://assets.nhle.com/logos/nhl/svg/WPG_light.svg"
+          },
+          "broadcasts": [
+            {
+              "network": "ESPN+",
+              "type": "Internet",
+              "locale": "National"
+            },
+            {
+              "network": "KHN",
+              "type": "TV",
+              "locale": "Home"
+            },
+            {
+              "network": "KONG",
+              "type": "TV",
+              "locale": "Home"
+            }
+          ],
+          "coverage": "full",
+          "home": {
+            "abbreviation": "SEA",
+            "name": "Seattle Kraken",
+            "icon": "https://assets.nhle.com/logos/nhl/svg/SEA_light.svg"
+          },
+          "id": "d4252a33-cdac-40fd-a00d-dd9c571d8008",
+          "reference": "20278",
+          "scheduled": "2025-11-14T03:00:00Z",
+          "season": {
+            "id": "4a67cca6-b450-45f9-91c6-48e92ac19069",
+            "year": 2025,
+            "type": "REG"
+          },
+          "sr_id": "sr:match:62071992",
+          "status": "scheduled",
+          "time_zones": {
+            "venue": "US/Pacific",
+            "home": "US/Pacific",
+            "away": "US/Central"
+          },
+          "venue": {
+            "id": "b80b24e1-71ed-4497-b66d-5688e1663bf9",
+            "name": "Climate Pledge Arena",
+            "capacity": 17100,
+            "address": "334 1st Ave N",
+            "city": "Seattle",
+            "state": "WA",
+            "zip": "98109",
+            "country": "USA",
+            "time_zone": "US/Pacific",
+            "sr_id": "sr:venue:59362",
+            "location": {
+              "lat": "47.62205",
+              "lng": "-122.35395"
+            }
+          },
+          "starts_at": "2025-11-13 22:00:00",
+          "table": "nhl"
+        }
+      }
+    ]
+  },
+  "versionId": "7c4e701f-543c-44df-a3a0-74528784ebc9",
+  "versionCounter": 2,
+  "triggerCount": 0,
+  "tags": [
+    {
+      "updatedAt": "2025-10-02T00:33:35.324Z",
+      "createdAt": "2025-10-02T00:33:35.324Z",
+      "id": "1iYVqLnt7f2NLEMF",
+      "name": "Utility"
+    },
+    {
+      "updatedAt": "2025-10-02T00:33:52.277Z",
+      "createdAt": "2025-10-02T00:33:52.277Z",
+      "id": "yviS9e4IWkYvxcsn",
+      "name": "Just The Stats Sports"
+    }
+  ],
+  "shared": [
+    {
+      "updatedAt": "2025-11-13T12:04:38.863Z",
+      "createdAt": "2025-11-13T12:04:38.863Z",
+      "role": "workflow:owner",
+      "workflowId": "X5yvxIsEc5hnlumj",
+      "projectId": "73UWjerCMPjP5ofU",
+      "project": {
+        "updatedAt": "2025-11-13T11:55:27.881Z",
+        "createdAt": "2025-11-13T11:53:22.454Z",
+        "id": "73UWjerCMPjP5ofU",
+        "name": "Xavier Wallis <wallisxavier04@gmail.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null
+      }
+    }
+  ]
+}

@@ -1,0 +1,198 @@
+{
+  "updatedAt": "2025-10-08T18:50:28.207Z",
+  "createdAt": "2025-10-08T12:40:44.002Z",
+  "id": "IkB2W2m9McWf6dnm",
+  "name": "Automatic Tweeter",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 7
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "da6b4ad1-e47a-4a3f-b0da-3dafcdc632a9",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "657617ec-e81c-4bf4-aed7-dc5e2b27170d",
+              "name": "chatInput",
+              "value": "create a tweet for today about computer science slop",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        208,
+        0
+      ],
+      "id": "6fed1bde-1b24-4e92-8152-b35af203811f",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "you generate tweets\noutput only tweets"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        416,
+        0
+      ],
+      "id": "2398a011-4d06-4b2f-bf34-926637f0471b",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-5-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-5-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        416,
+        192
+      ],
+      "id": "35541e5d-f280-4d35-a18a-dc473228d990",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "1AFkC1eX6E82j9HC",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "ecjPhaxYG9JxIaGm",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/ecjPhaxYG9JxIaGm",
+          "cachedResultName": "Todays Date"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {}
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        560,
+        208
+      ],
+      "id": "5fb69446-fdb4-417d-a1dc-e12ddc3e8e28",
+      "name": "Call 'Todays Date'"
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call 'Todays Date'": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "cba7119e-ca3a-4ad7-858d-78000e99a579",
+  "versionCounter": 1,
+  "triggerCount": 0,
+  "tags": [
+    {
+      "updatedAt": "2025-10-08T13:43:51.438Z",
+      "createdAt": "2025-10-08T13:43:51.438Z",
+      "id": "XIR5ZKYrP6tgPS2o",
+      "name": "Scheduled"
+    }
+  ],
+  "shared": [
+    {
+      "updatedAt": "2025-11-13T12:03:59.268Z",
+      "createdAt": "2025-11-13T12:03:59.268Z",
+      "role": "workflow:owner",
+      "workflowId": "IkB2W2m9McWf6dnm",
+      "projectId": "73UWjerCMPjP5ofU",
+      "project": {
+        "updatedAt": "2025-11-13T11:55:27.881Z",
+        "createdAt": "2025-11-13T11:53:22.454Z",
+        "id": "73UWjerCMPjP5ofU",
+        "name": "Xavier Wallis <wallisxavier04@gmail.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null
+      }
+    }
+  ]
+}

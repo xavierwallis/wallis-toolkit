@@ -1,0 +1,56 @@
+{
+  "updatedAt": "2025-10-12T01:33:43.231Z",
+  "createdAt": "2025-10-11T19:42:20.346Z",
+  "id": "Gfn24Pq7OmtTcDZg",
+  "name": "Local Server",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "path": "4dc8459a-46e9-4d9b-b9c0-74abcaf37372",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        16,
+        0
+      ],
+      "id": "76781eac-4e42-4e4f-9a74-73a4c2d3d51e",
+      "name": "Webhook",
+      "webhookId": "4dc8459a-46e9-4d9b-b9c0-74abcaf37372"
+    }
+  ],
+  "connections": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "8a0a917f-cb3e-4c23-97af-39fb34db58dc",
+  "versionCounter": 1,
+  "triggerCount": 0,
+  "tags": [],
+  "shared": [
+    {
+      "updatedAt": "2025-11-13T12:03:54.927Z",
+      "createdAt": "2025-11-13T12:03:54.927Z",
+      "role": "workflow:owner",
+      "workflowId": "Gfn24Pq7OmtTcDZg",
+      "projectId": "73UWjerCMPjP5ofU",
+      "project": {
+        "updatedAt": "2025-11-13T11:55:27.881Z",
+        "createdAt": "2025-11-13T11:53:22.454Z",
+        "id": "73UWjerCMPjP5ofU",
+        "name": "Xavier Wallis <wallisxavier04@gmail.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null
+      }
+    }
+  ]
+}

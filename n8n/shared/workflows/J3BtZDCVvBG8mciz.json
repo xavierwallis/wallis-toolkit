@@ -1,0 +1,140 @@
+{
+  "updatedAt": "2025-10-09T20:23:10.477Z",
+  "createdAt": "2025-10-09T20:23:10.477Z",
+  "id": "J3BtZDCVvBG8mciz",
+  "name": "Balatro Aid",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        0,
+        0
+      ],
+      "id": "cc74634e-b100-4982-a5b4-81d56f263403",
+      "name": "When chat message received",
+      "webhookId": "abb13982-f9dc-43cf-b288-642db3d59957"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "you are an expert balatro player what is the expected value any problem i give you inside a balatro hand doing the golden needle challenge w holding jokers:\n1 credit card\n1 +3 mult if spades card\n1 icecream +90 chips\n1 popcorn +20 (just bought)"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        208,
+        0
+      ],
+      "id": "45e2e5d8-35ca-4b68-bedd-346c1eb3bad0",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-5",
+          "mode": "list",
+          "cachedResultName": "gpt-5"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        208,
+        192
+      ],
+      "id": "df7d873e-713a-4c41-8e0f-506bba3f1fc9",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "1AFkC1eX6E82j9HC",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        304,
+        304
+      ],
+      "id": "83019a37-ac19-4266-94ec-23a202547dec",
+      "name": "Simple Memory"
+    }
+  ],
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "bbc8a455-b2ad-49c8-9de9-2286f04b5cfe",
+  "versionCounter": 1,
+  "triggerCount": 0,
+  "tags": [],
+  "shared": [
+    {
+      "updatedAt": "2025-11-13T12:04:02.187Z",
+      "createdAt": "2025-11-13T12:04:02.187Z",
+      "role": "workflow:owner",
+      "workflowId": "J3BtZDCVvBG8mciz",
+      "projectId": "73UWjerCMPjP5ofU",
+      "project": {
+        "updatedAt": "2025-11-13T11:55:27.881Z",
+        "createdAt": "2025-11-13T11:53:22.454Z",
+        "id": "73UWjerCMPjP5ofU",
+        "name": "Xavier Wallis <wallisxavier04@gmail.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null
+      }
+    }
+  ]
+}

@@ -1,0 +1,139 @@
+{
+  "updatedAt": "2025-10-08T20:23:00.082Z",
+  "createdAt": "2025-10-08T20:13:41.903Z",
+  "id": "WxK3mGR5zTHG2kB5",
+  "name": "Todays Weather",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "3285881e-6c8d-43e9-b99e-7b2ee6962940",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "url": "https://api.open-meteo.com/v1/forecast",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "latitude",
+              "value": "42.0987"
+            },
+            {
+              "name": "longitude",
+              "value": "-75.91797"
+            },
+            {
+              "name": "current_weather",
+              "value": "true"
+            },
+            {
+              "name": "daily",
+              "value": "temperature_2m_max,temperature_2m_min,precipitation_sum,weathercode"
+            },
+            {
+              "name": "timezone",
+              "value": "America/New_York"
+            },
+            {
+              "name": "temperature_unit",
+              "value": "fahrenheit"
+            },
+            {
+              "name": "windspeed_unit",
+              "value": "mph"
+            },
+            {
+              "name": "precipitation_unit",
+              "value": "inch"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        208,
+        0
+      ],
+      "id": "076d4bda-e490-4096-8773-0c0da7385a3c",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "jsCode": "const data = $json.daily;\nconst today = new Date().toISOString().split('T')[0];\nconst idx = data.time.indexOf(today);\n\nif (idx === -1) {\n  return [{ error: 'today not found' }];\n}\n\nreturn [{\n  high: data.temperature_2m_max[idx],\n  low: data.temperature_2m_min[idx],\n  precip: data.precipitation_sum[idx],\n  weathercode: data.weathercode[idx]\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        416,
+        0
+      ],
+      "id": "6a0ed349-dddc-49a4-aec8-53aecd11d218",
+      "name": "Code in JavaScript"
+    }
+  ],
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "6ef7f20a-989d-448d-90af-ba5a95cccbf9",
+  "versionCounter": 1,
+  "triggerCount": 0,
+  "tags": [],
+  "shared": [
+    {
+      "updatedAt": "2025-11-13T12:04:37.419Z",
+      "createdAt": "2025-11-13T12:04:37.419Z",
+      "role": "workflow:owner",
+      "workflowId": "WxK3mGR5zTHG2kB5",
+      "projectId": "73UWjerCMPjP5ofU",
+      "project": {
+        "updatedAt": "2025-11-13T11:55:27.881Z",
+        "createdAt": "2025-11-13T11:53:22.454Z",
+        "id": "73UWjerCMPjP5ofU",
+        "name": "Xavier Wallis <wallisxavier04@gmail.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null
+      }
+    }
+  ]
+}

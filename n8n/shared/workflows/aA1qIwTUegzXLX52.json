@@ -1,0 +1,38 @@
+{
+  "updatedAt": "2025-10-11T18:45:57.766Z",
+  "createdAt": "2025-10-08T15:45:43.145Z",
+  "id": "aA1qIwTUegzXLX52",
+  "name": "Get NFL Data",
+  "active": false,
+  "isArchived": true,
+  "nodes": [],
+  "connections": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "74ae1881-9c3f-4352-b74c-a448533528fe",
+  "versionCounter": 1,
+  "triggerCount": 0,
+  "tags": [],
+  "shared": [
+    {
+      "updatedAt": "2025-11-13T12:03:31.886Z",
+      "createdAt": "2025-11-13T12:03:31.886Z",
+      "role": "workflow:owner",
+      "workflowId": "aA1qIwTUegzXLX52",
+      "projectId": "73UWjerCMPjP5ofU",
+      "project": {
+        "updatedAt": "2025-11-13T11:55:27.881Z",
+        "createdAt": "2025-11-13T11:53:22.454Z",
+        "id": "73UWjerCMPjP5ofU",
+        "name": "Xavier Wallis <wallisxavier04@gmail.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null
+      }
+    }
+  ]
+}
