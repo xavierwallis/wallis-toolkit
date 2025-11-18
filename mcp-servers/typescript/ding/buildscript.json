@@ -1,0 +1,1 @@
+{ "ding": { "command": "deno", "args":["run","--allow-all","~/projects/wallis-toolkit/mcp-servers/typescript/ding/main.ts"]} }

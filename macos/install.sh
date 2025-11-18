@@ -17,9 +17,13 @@ source ~/.zprofile
 brew update
 
 
+
+echo "downloading uv python"
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
 echo "downloading formulae"
 # Formulae
-brew install neofetch yabai ffmpeg docker docker-completion docker-compose python@3.12 supabase stripe-cli mas rustup fzf dotenvx thefuck lua
+brew install neofetch yabai ffmpeg docker docker-completion docker-compose supabase stripe-cli mas rustup fzf dotenvx thefuck lua
 
 
 echo "downloading casks"

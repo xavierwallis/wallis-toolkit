@@ -15,7 +15,7 @@ server.tool(
   'tailscale-status',
   {},
   async () => {
-    const { stdout } = await exec_async('tailscale status --json')
+    const { stdout } = await exec_async('tailscale status')
     return {
       content: [{
         type: 'text', // Use 'json' instead of 'text' for structured data
@@ -26,18 +26,27 @@ server.tool(
 )
 
 server.tool(
-  'tailscale-connect',
-  { a: z.number(), b: z.number() },
-  async ({ a, b }) => ({
-    content: [{ type: "text", text: String(a + b) }]
-  })
+  'tailscale-login',
+  {},
+  async () => {
+
+  }
 )
 
 server.tool(
-  'tailscale-disconnect',
-  { ip: z.string() },
-  async () => ({
-    content: [{ type: 'text', text: 'fuck what' }]
+  'tailscale-up',
+  {},
+  async () => {
+
+  }
+)
+
+
+server.tool(
+  'tailscale-execute',
+  { ip: z.string(), password: z.string() },
+  async ({ ip, password }) => ({
+    content: [{ type: "text", text: 'hi' }]
   })
 )
 

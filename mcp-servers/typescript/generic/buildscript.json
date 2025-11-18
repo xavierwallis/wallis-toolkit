@@ -1,0 +1,10 @@
+{
+  "generic": {
+    "command": "deno",
+    "args": [
+      "run",
+      "--allow-all",
+      "~/projects/wallis-toolkit/mcp-servers/typescript/generic/main.ts"
+    ]
+  }
+}

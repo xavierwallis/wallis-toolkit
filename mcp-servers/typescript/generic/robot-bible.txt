@@ -1,0 +1,35 @@
+This document holds the design philosphy all agents are to adhere to
+
+REQUIRED DESIGN ARCHITECTURE
+if not present, create a design document <project-outline.txt> in the project directory detailing the requirements of the prompt, solutions and their pitfalls, and where further clarifying questions may be asked
+if present, consult document and its contents to continue onward
+
+if not present, create a <todo-list.txt> document in the project directory
+this will hold information prior, in the format:
+[ ] incomplete item
+[*] complete item
+
+once complete consult user to verify accuracy of both documents
+
+after constructing the project file structure, outline, and todo list, but before any source code is written
+detail and construct appropriate tests for the infrastructure necessary
+this is the first code that is written after constructing the initial project, then source code can be adjusted/written/corrected
+
+once complete consult user to verify accuracy and relevance of tests
+
+
+REQUIRED CODE STYLE
+variables and functions are all lowercase kebab-case but if not possible snake_case is acceptable
+classes are in PascalCase
+
+code readability is paramount, this is of upmost concern
+innerpad parenthetical statements, eg: ( 2 + ( 4 / 2 ) )
+this applies to { content }, [ content ], ( content ), but not empty brackets/parenthesis
+this while not conventional increases readability
+
+write intuitive code that reads like english, but document code as you go where it may be unintuitive
+code must as best as possible remain modular and concise, following single goal principle for functions
+
+write code that is similar in style to the code around it, never abbreviating words no matter how long, and maintaining good structure
+
+

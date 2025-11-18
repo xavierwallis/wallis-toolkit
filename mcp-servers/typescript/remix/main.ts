@@ -49,7 +49,7 @@ server.resource(
   async (uri) => ({
     contents: [{
       uri: uri.href,
-      text: read_file(`${scaffolding_path}/database/declaration.ts`)
+      text: read_file(`${scaffolding_path}/database/declaration.ts`, 'utf-8')
     }]
   })
 )
@@ -60,7 +60,7 @@ server.resource(
   async (uri) => ({
     contents: [{
       uri: uri.href,
-      text: read_file(`${scaffolding_path}/database/schema.ts`)
+      text: read_file(`${scaffolding_path}/database/schema.ts`, 'utf-8')
     }]
   })
 )
@@ -71,7 +71,7 @@ server.resource(
   async (uri) => ({
     contents: [{
       uri: uri.href,
-      text: read_file(`${scaffolding_path}/routes/route.tsx`)
+      text: read_file(`${scaffolding_path}/routes/route.tsx`, 'utf-8')
     }]
   })
 )
@@ -82,7 +82,7 @@ server.resource(
   async (uri) => ({
     contents: [{
       uri: uri.href,
-      text: read_file(`${scaffolding_path}/routes/protected/route.tsx`)
+      text: read_file(`${scaffolding_path}/routes/protected/route.tsx`, 'utf-8')
     }]
   })
 )
@@ -93,7 +93,7 @@ server.resource(
   async (uri) => ({
     contents: [{
       uri: uri.href,
-      text: read_file(`${scaffolding_path}/routes/authentication/authentication.tsx`)
+      text: read_file(`${scaffolding_path}/routes/authentication/authentication.tsx`, 'utf-8')
     }]
   })
 )
@@ -104,7 +104,7 @@ server.resource(
   async (uri) => ({
     contents: [{
       uri: uri.href,
-      text: read_file(`${scaffolding_path}/routes/authentication/authentication.google.tsx`)
+      text: read_file(`${scaffolding_path}/routes/authentication/authentication.google.tsx`, 'utf-8')
     }]
   })
 )
@@ -115,7 +115,7 @@ server.resource(
   async (uri) => ({
     contents: [{
       uri: uri.href,
-      text: read_file(`${scaffolding_path}/routes/authentication/authentication.google.callback.tsx`)
+      text: read_file(`${scaffolding_path}/routes/authentication/authentication.google.callback.tsx`, 'utf-8')
     }]
   })
 )
@@ -126,7 +126,7 @@ server.resource(
   async (uri) => ({
     contents: [{
       uri: uri.href,
-      text: read_file(`${scaffolding_path}/routes/plaid/plaid.link.token.create.tsx`)
+      text: read_file(`${scaffolding_path}/routes/plaid/plaid.link.token.create.tsx`, 'utf-8')
     }]
   })
 )
@@ -137,7 +137,7 @@ server.resource(
   async (uri) => ({
     contents: [{
       uri: uri.href,
-      text: read_file(`${scaffolding_path}/routes/plaid/plaid.link.tsx`)
+      text: read_file(`${scaffolding_path}/routes/plaid/plaid.link.tsx`, 'utf-8')
     }]
   })
 )
@@ -148,7 +148,7 @@ server.resource(
   async (uri) => ({
     contents: [{
       uri: uri.href,
-      text: read_file(`${scaffolding_path}/services/authenticator.ts`)
+      text: read_file(`${scaffolding_path}/services/authenticator.ts`, 'utf-8')
     }]
   })
 )
