@@ -7,7 +7,6 @@ class list( list ):
     def map( self, function: Callable ):
         return list( map( function, self ) )
 
-
     def filter( self, function: Callable ):
         return list( filter( function, self ) )
 
